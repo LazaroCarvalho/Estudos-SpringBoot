@@ -1,9 +1,15 @@
 package br.senai.sp.jandira.odonto.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -24,6 +30,12 @@ public class Dentista {
 	private String cro;
 	private String email;
 	private String telefone;
+	
+	@ManyToMany()
+	@JoinTable(name = "tbl_dentista_especialidade",
+				joinColumns = @JoinColumn(name = "dentista_codigo", referencedColumnName = "codigo"), 
+				inverseJoinColumns = @JoinColumn(name = "especialidade_codigo", referencedColumnName = "codigo"))
+	private List<Especialidade> especialidades;
 
 	// Getters e Setters
 	public Long getCodigo() {
@@ -64,6 +76,14 @@ public class Dentista {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<Especialidade> getEspecialidades() {
+		return especialidades;
+	}
+
+	public void setEspecialidades(List<Especialidade> especialidades) {
+		this.especialidades = especialidades;
 	}
 
 	@Override
